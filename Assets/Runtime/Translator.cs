@@ -627,6 +627,7 @@ namespace VRSuya.Core {
 			{ AvatarType.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },
 			{ AvatarType.SELESTIA, new string[] { "SELESTIA", "셀레스티아", "セレスティア" } },
 			{ AvatarType.Sephira, new string[] { "Sephira", "세피라", "セフィラ" } },
+			{ AvatarType.Shami, new string[] { "Shami", "샤미", "シャミ" } },
 			{ AvatarType.Shinano, new string[] { "Shinano", "시나노", "しなの" } },
 			{ AvatarType.Shinra, new string[] { "Shinra", "신라", "森羅" } },
 			{ AvatarType.SHIRAHA, new string[] { "SHIRAHA", "시라하", "シラハ" } },

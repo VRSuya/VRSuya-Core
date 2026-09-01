@@ -114,6 +114,7 @@ namespace VRSuya.Core {
 			{ "String_AnimationClip", "Animation Clip" },
 			{ "String_AnimationOrigin", "Animation Origin" },
 			{ "String_AnimationStrength", "Animation Strength" },
+			{ "String_Animator", "Animator" },
 			{ "String_Apply", "Apply" },
 			{ "String_Avatar", "Avatar" },
 			{ "String_AvatarAuthor", "Avatar Author" },
@@ -139,6 +140,7 @@ namespace VRSuya.Core {
 			{ "String_Replace", "Replace" },
 			{ "String_Save", "Save" },
 			{ "String_Show", "Show" },
+			{ "String_SkinnedMeshRenderer", "SkinnedMeshRenderer" },
 			{ "String_Strength", "Strength" },
 			{ "String_Texture", "Textures" },
 			{ "String_Undo", "Undo" },
@@ -154,10 +156,6 @@ namespace VRSuya.Core {
 			{ "String_FollowGameObject", "Follow GameObject" },
 			{ "String_LockRotation", "Lock Camera Rotation" },
 
-			// AvatarPatcher
-			{ "String_AvatarPatcher", "This tool is currently under development, We're working to release an update as soon as possible" },
-			{ "COMPLETED_PATCH", "The {0} avatar has been patched" },
-
 			// AvatarRebuilder
 			{ "String_AvatarRebuilder", "This tool is used to replace avatar models that have been patched in Blender\nIf you want to patch your avatar directly in Unity, please use the following menu instead of this tool\nTools → VRSuya → Installer → HDiffPatcher" },
 			{ "NO_NEW_ANIMATOR", "Not found Animator Component in the New Avatar" },
@@ -171,9 +169,8 @@ namespace VRSuya.Core {
 			// AvatarScaler
 			{ "String_AvatarHeight", "Avatar Height (cm)" },
 
-			// AvatarSettingUpdater
-			{ "String_AvatarSettingUpdater", "The latest VRSuya items are now configured automatically during avatar upload, similar to Modular Avatar-compatible items. AvatarSettingUpdater is no longer used." },
-			{ "String_OpenBOOTH", "Open BOOTH" },
+			// BlendshapeController
+			{ "String_OutofRangeBlendshape", "Out-of-Range Blendshape List" },
 
 			// ChangeStandingPose
 			{ "String_ChangeStandingPose", "Replaces the default VRChat standing pose in the Action Layer with the avatar's standing pose." },
@@ -195,6 +192,7 @@ namespace VRSuya.Core {
 			{ "String_HDiffPatcher", "Patches can only be applied to the original avatar model file\nIf the model file has been modified (like facial patch), use the AvatarPatcher add-on in Blender to patch the modified model, then replace the avatar model using AvatarRebuilder" },
 			{ "String_PatchData", "Patch Data" },
 			{ "String_ReplaceAfterPatch", "Replace Avatar After Patching" },
+			{ "COMPLETED_PATCH", "The {0} avatar has been patched" },
 			{ "ERROR_CONSOLE", "An error occurred while patching the avatar! Please check the error message in the Unity Console window" },
 			{ "ERROR_FAILEDRUN", "Failed to launch HDiffPatch" },
 			{ "ERROR_FBX", "The source file path is invalid" },
@@ -235,10 +233,6 @@ namespace VRSuya.Core {
 			// RemovePhysBone
 			{ "String_RemovePhysBone", "When uploading the avatar, PhysBone components on cheek bones will be removed." },
 
-			// TextureReplacer
-			{ "String_Null", "Clearing the item will remove the texture from the material" },
-			{ "NO_DATA", "The texture cannot be found in the specified object" },
-
 			// 성공 코드
 			{ "COMPLETED_GETPOSITION", "Imported cheek bone origin position" },
 			{ "COMPLETED_UPDATE", "Updated the offset of the animation clip" },
@@ -261,6 +255,7 @@ namespace VRSuya.Core {
 			{ "String_AnimationClip", "애니메이션 클립" },
 			{ "String_AnimationOrigin", "애니메이션 본 원점" },
 			{ "String_AnimationStrength", "애니메이션 강도" },
+			{ "String_Animator", "애니메이터" },
 			{ "String_Apply", "적용" },
 			{ "String_Avatar", "아바타" },
 			{ "String_AvatarAuthor", "아바타 제작자" },
@@ -286,6 +281,7 @@ namespace VRSuya.Core {
 			{ "String_Replace", "교체" },
 			{ "String_Save", "저장" },
 			{ "String_Show", "표시" },
+			{ "String_SkinnedMeshRenderer", "스킨드 메쉬 렌더러" },
 			{ "String_Strength", "강도" },
 			{ "String_Texture", "텍스쳐" },
 			{ "String_Undo", "실행 취소" },
@@ -301,10 +297,6 @@ namespace VRSuya.Core {
 			{ "String_FollowGameObject", "GameObject 추적" },
 			{ "String_LockRotation", "카메라 회전 고정" },
 
-			// AvatarPatcher
-			{ "String_AvatarPatcher", "현재 프로그램은 개발 중입니다, 빠르게 업데이트 할 수 있도록 하겠습니다" },
-			{ "COMPLETED_PATCH", "{0} 아바타를 패치하였습니다" },
-
 			// AvatarRebuilder
 			{ "String_AvatarRebuilder", "Blender에서 패치한 아바타 모델을 교체하기 위한 프로그램 입니다\nUnity에서 바로 아바타를 패치하시려면, 현재 프로그램 대신 아래의 메뉴를 이용하여 아바타 모델 패치를 진행해 주세요\nTools → VRSuya → Installer → HDiffPatcher" },
 			{ "NO_NEW_ANIMATOR", "새 아바타에서 애니메이터를 찾을 수 없습니다" },
@@ -318,9 +310,8 @@ namespace VRSuya.Core {
 			// AvatarScaler
 			{ "String_AvatarHeight", "아바타 키 (cm)" },
 
-			// AvatarSettingUpdater
-			{ "String_AvatarSettingUpdater", "최신 VRSuya 아이템은 모듈러 아바타 대응 아이템처럼 이제 아바타 업로드시에 자동으로 설정합니다, AvatarSettingUpdater는 더 이상 사용하지 않습니다" },
-			{ "String_OpenBOOTH", "BOOTH 열기" },
+			// BlendshapeController
+			{ "String_OutofRangeBlendshape", "범위를 벗어난 Blendshape 목록" },
 
 			// ChangeStandingPose
 			{ "String_ChangeStandingPose", "액션 레이어의 기본 VRChat 스탠드 포즈를 아바타의 스탠드 포즈로 바꿉니다" },
@@ -342,6 +333,7 @@ namespace VRSuya.Core {
 			{ "String_HDiffPatcher", "순정 아바타 모델 파일만 패치를 적용할 수 있습니다\n페이셜 패치 등으로 모델 파일을 수정한 경우에는 Blender에서 AvatarPatcher 애드온으로 수정된 모델으로 패치를 진행한 모델 파일로 AvatarRebuilder에서 교체 작업을 해야 합니다" },
 			{ "String_PatchData", "패치 데이터" },
 			{ "String_ReplaceAfterPatch", "패치 후 아바타 교체" },
+			{ "COMPLETED_PATCH", "{0} 아바타를 패치하였습니다" },
 			{ "ERROR_CONSOLE", "아바타 패치 도중 에러가 발생하였습니다, Unity의 Console 창에서 오류 메시지를 확인해 주세요" },
 			{ "ERROR_FAILEDRUN", "HDiffPatch를 실행하는데 실패하였습니다" },
 			{ "ERROR_FBX", "원본 파일의 경로가 올바르지 않습니다" },
@@ -382,10 +374,6 @@ namespace VRSuya.Core {
 			// RemovePhysBone
 			{ "String_RemovePhysBone", "아바타 업로드 할 때, 볼 본의 PhysBone 컴포넌트들을 제거합니다" },
 
-			// TextureReplacer
-			{ "String_Null", "항목을 비우면 해당 텍스쳐를 머테리얼에서 제거합니다" },
-			{ "NO_DATA", "해당 오브젝트에서 텍스쳐를 찾을 수 없습니다" },
-
 			// 성공 코드
 			{ "COMPLETED_GETPOSITION", "볼 위치 데이터를 가져왔습니다" },
 			{ "COMPLETED_UPDATE", "애니메이션 클립의 오프셋을 업데이트 하였습니다" },
@@ -408,6 +396,7 @@ namespace VRSuya.Core {
 			{ "String_AnimationClip", "アニメーション·クリップ" },
 			{ "String_AnimationOrigin", "アニメーションほっぺの原点" },
 			{ "String_AnimationStrength", "アニメーション強盗" },
+			{ "String_Animator", "アニメーター" },
 			{ "String_Apply", "適用" },
 			{ "String_Avatar", "アバター" },
 			{ "String_AvatarAuthor", "アバター製作者" },
@@ -433,6 +422,7 @@ namespace VRSuya.Core {
 			{ "String_Replace", "交換" },
 			{ "String_Save", "保存" },
 			{ "String_Show", "表示" },
+			{ "String_SkinnedMeshRenderer", "スキンメッシュレンダラー" },
 			{ "String_Strength", "強度" },
 			{ "String_Texture", "テクスチャ" },
 			{ "String_Undo", "元に戻す" },
@@ -448,10 +438,6 @@ namespace VRSuya.Core {
 			{ "String_FollowGameObject", "GameObjectを追従" },
 			{ "String_LockRotation", "カメラ回転固定" },
 
-			// AvatarPatcher
-			{ "String_AvatarPatcher", "このツールは現在開発中です、できるだけ早く公開できるよう開発を進めております" },
-			{ "COMPLETED_PATCH", "{0}アバターをパッチしました" },
-
 			// AvatarRebuilder
 			{ "String_AvatarRebuilder", "このツールはBlenderでパッチを適用したアバターモデルを差し替えるためのツールです\nUnity上で直接アバターをパッチしたい場合は、このツールではなく、以下のメニューからアバターモデルのパッチを実行してください\nTools → VRSuya → Installer → HDiffPatcher" },
 			{ "NO_NEW_ANIMATOR", "新しいアバターにアニメーターが見つかりません" },
@@ -465,9 +451,8 @@ namespace VRSuya.Core {
 			// AvatarScaler
 			{ "String_AvatarHeight", "アバターの高さ (cm)" },
 
-			// AvatarSettingUpdater
-			{ "String_AvatarSettingUpdater", "最新のVRSuyaアイテムはModular Avatar対応アイテムと同様に、アバターのアップロード時に自動で設定されるようになりました、AvatarSettingUpdaterは今後使用されません" },
-			{ "String_OpenBOOTH", "BOOTHを開く" },
+			// BlendshapeController
+			{ "String_OutofRangeBlendshape", "範囲外のBlendshape一覧" },
 
 			// ChangeStandingPose
 			{ "String_ChangeStandingPose", "Actionレイヤー内のデフォルトVRChatスタンドポーズを、アバターのスタンドポーズに変更します" },
@@ -489,6 +474,7 @@ namespace VRSuya.Core {
 			{ "String_HDiffPatcher", "パッチはオリジナルのアバターモデルファイルにのみ適用できます\nフェイシャルパッチなどでモデルファイルを変更している場合は、BlenderのAvatarPatcherアドオンを使用して変更済みモデルにパッチを適用し、その後AvatarRebuilderでアバターモデルを差し替えてください" },
 			{ "String_PatchData", "パッチデータ" },
 			{ "String_ReplaceAfterPatch", "パッチ後にアバターを置き換える" },
+			{ "COMPLETED_PATCH", "{0}アバターをパッチしました" },
 			{ "ERROR_CONSOLE", "アバターのパッチ中にエラーが発生しました！UnityのConsoleウィンドウでエラーメッセージを確認してください" },
 			{ "ERROR_FAILEDRUN", "HDiffPatchの起動に失敗しました" },
 			{ "ERROR_FBX", "元ファイルのパスが無効です" },
@@ -528,10 +514,6 @@ namespace VRSuya.Core {
 
 			// RemovePhysBone
 			{ "String_RemovePhysBone", "アバターをアップロードする際、頬ボーンのPhysBoneコンポーネントは削除されます" },
-
-			// TextureReplacer
-			{ "String_Null", "項目をクリアすると、該当テクスチャがマテリアルから削除されます" },
-			{ "NO_DATA", "該当オブジェクトでテクスチャを見つけることができません" },
 
 			// 성공 코드
 			{ "COMPLETED_GETPOSITION", "ほっぺ位置データを取得しました" },

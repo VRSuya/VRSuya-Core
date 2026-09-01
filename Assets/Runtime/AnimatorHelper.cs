@@ -335,6 +335,18 @@ namespace VRSuya.Core {
 			}
 			return true;
 		}
+
+		public static bool ModifyWriteDefaults(AnimatorController TargetAnimator, bool TargetWriteDefaults) {
+			AnimatorState[] AllAnimatorStates = GetAllAnimatorStates(TargetAnimator);
+			bool IsModified = false;
+			foreach (AnimatorState TargetState in AllAnimatorStates) {
+				if (TargetState.writeDefaultValues != TargetWriteDefaults) {
+					TargetState.writeDefaultValues = TargetWriteDefaults;
+					IsModified = true;
+				}
+			}
+			return IsModified;
+		}
 	}
 }
 #endif

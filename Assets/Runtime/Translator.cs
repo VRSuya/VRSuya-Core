@@ -1,12 +1,7 @@
 ﻿#if UNITY_EDITOR
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
-using UnityEditor;
 using UnityEngine;
-
-using static VRSuya.Core.AvatarUtility;
 
 /*
  * VRSuya Core
@@ -50,34 +45,6 @@ namespace VRSuya.Core {
 					break;
 			}
 			return NewString;
-		}
-
-		public static string[] GetAvatarAuthorName(SerializedProperty TargetProperty) {
-			int AvatarAuthorCount = TargetProperty.arraySize;
-			AvatarAuthor[] AvatarAuthorNames = new AvatarAuthor[AvatarAuthorCount];
-			for (int Index = 0; Index < AvatarAuthorCount; Index++) {
-				SerializedProperty ArrayItem = TargetProperty.GetArrayElementAtIndex(Index);
-				string AvatarAuthorEnumName = ArrayItem.enumNames[ArrayItem.enumValueIndex];
-				AvatarAuthorNames[Index] = (AvatarAuthor)Enum.Parse(typeof(AvatarAuthor), AvatarAuthorEnumName);
-			}
-			return AvatarAuthorNames
-				.Where((AvatarAuthorName) => AvatarAuthorNameList.ContainsKey(AvatarAuthorName))
-				.Select((AvatarAuthorName) => AvatarAuthorNameList[AvatarAuthorName][LanguageIndex])
-				.ToArray();
-		}
-
-		public static string[] GetAvatarName(SerializedProperty TargetProperty) {
-			int AvatarNameCount = TargetProperty.arraySize;
-			AvatarType[] AvatarNames = new AvatarType[AvatarNameCount];
-			for (int Index = 0; Index < AvatarNameCount; Index++) {
-				SerializedProperty ArrayItem = TargetProperty.GetArrayElementAtIndex(Index);
-				string AvatarEnumName = ArrayItem.enumNames[ArrayItem.enumValueIndex];
-				AvatarNames[Index] = (AvatarType)Enum.Parse(typeof(AvatarType), AvatarEnumName);
-			}
-			return AvatarNames
-				.Where((AvatarName) => AvatarNameList.ContainsKey(AvatarName))
-				.Select((AvatarName) => AvatarNameList[AvatarName][LanguageIndex])
-				.ToArray();
 		}
 
 		public static string[] GetLanguageOption() {
@@ -527,110 +494,6 @@ namespace VRSuya.Core {
 			{ "NO_FACEMESH", "顔のメッシュが見つかりません" },
 			{ "NO_PREFAB_MODE", "Prefab編集モードでは実行できません" },
 			{ "NO_SHAPEKEY", "値が設定されたシェイプキーがありません" }
-		};
-
-		static readonly Dictionary<AvatarAuthor, string[]> AvatarAuthorNameList = new Dictionary<AvatarAuthor, string[]>() {
-			{ AvatarAuthor.General, new string[] { "General", "일반", "一般" } },
-			{ AvatarAuthor.ChocolateRice, new string[] { "Chocolate rice", "초콜렛 라이스", "チョコレートライス" } },
-			{ AvatarAuthor.JINGO, new string[] { "JINGO", "진권", "ジンゴ" } },
-			{ AvatarAuthor.Komado, new string[] { "Komado", "코마도", "こまど" } },
-			{ AvatarAuthor.Plusone, new string[] { "Plusone", "플러스원", "ぷらすわん" } }
-		};
-
-		static readonly Dictionary<AvatarType, string[]> AvatarNameList = new Dictionary<AvatarType, string[]>() {
-			{ AvatarType.General, new string[] { "General", "일반", "一般" } },
-			{ AvatarType.None, new string[] { "None", "없음", "無い" } },
-			{ AvatarType.Airi, new string[] { "Airi", "아이리", "愛莉" } },
-			{ AvatarType.Aldina, new string[] { "Aldina", "알디나", "アルディナ" } },
-			{ AvatarType.Angura, new string[] { "Angura", "앙그라", "アングラ" } },
-			{ AvatarType.Anon, new string[] { "Anon", "아논", "あのん" } },
-			{ AvatarType.Anri, new string[] { "Anri", "안리", "杏里" } },
-			{ AvatarType.Ash, new string[] { "Ash", "애쉬", "アッシュ" } },
-			{ AvatarType.Chiffon, new string[] { "Chiffon", "쉬폰", "シフォン" } },
-			{ AvatarType.Chise, new string[] { "Chise", "치세", "チセ" } },
-			{ AvatarType.Chocolat, new string[] { "Chocolat", "쇼콜라", "ショコラ" } },
-			{ AvatarType.Cygnet, new string[] { "Cygnet", "시그넷", "シグネット" } },
-			{ AvatarType.Eku, new string[] { "Eku", "에쿠", "エク" } },
-			{ AvatarType.Emmelie, new string[] { "Emmelie", "에밀리", "Emmelie" } },
-			{ AvatarType.EYO, new string[] { "EYO", "이요", "イヨ" } },
-			{ AvatarType.Firina, new string[] { "Firina", "휘리나", "フィリナ" } },
-			{ AvatarType.Flare, new string[] { "Flare", "플레어", "フレア" } },
-			{ AvatarType.Fuzzy, new string[] { "Fuzzy", "퍼지", "ファジー" } },
-			{ AvatarType.Glaze, new string[] { "Glaze", "글레이즈", "ぐれーず" } },
-			{ AvatarType.Grus, new string[] { "Grus", "그루스", "Grus" } },
-			{ AvatarType.Hakka, new string[] { "Hakka", "하카", "薄荷" } },
-			{ AvatarType.IMERIS, new string[] { "IMERIS", "이메리스", "イメリス" } },
-			{ AvatarType.Karin, new string[] { "Karin", "카린", "カリン" } },
-			{ AvatarType.Kikyo, new string[] { "Kikyo", "키쿄", "桔梗" } },
-			{ AvatarType.Kipfel, new string[] { "Kipfel", "키펠", "キプフェル" } },
-			{ AvatarType.Kokoa, new string[] { "Kokoa", "코코아", "ここあ" } },
-			{ AvatarType.Koyuki, new string[] { "Koyuki", "코유키", "狐雪" } },
-			{ AvatarType.KUMALY, new string[] { "KUMALY", "쿠마리", "クマリ" } },
-			{ AvatarType.Kuronatu, new string[] { "Kuronatu", "쿠로나츠", "くろなつ" } },
-			{ AvatarType.Lapwing, new string[] { "Lapwing", "랩윙", "Lapwing" } },
-			{ AvatarType.Lazuli, new string[] { "Lazuli", "라줄리", "ラズリ" } },
-			{ AvatarType.Leefa, new string[] { "Leefa", "리파", "リーファ" } },
-			{ AvatarType.Leeme, new string[] { "Leeme", "리메", "リーメ" } },
-			{ AvatarType.Lime, new string[] { "Lime", "라임", "ライム" } },
-			{ AvatarType.LUMINA, new string[] { "LUMINA", "루미나", "ルミナ" } },
-			{ AvatarType.Lunalitt, new string[] { "Lunalitt", "루나릿트", "ルーナリット" } },
-			{ AvatarType.Mafuyu, new string[] { "Mafuyu", "마후유", "真冬" } },
-			{ AvatarType.Maki, new string[] { "Maki", "마키", "碼希" } },
-			{ AvatarType.Mamehinata, new string[] { "Mamehinata", "마메히나타", "まめひなた" } },
-			{ AvatarType.MANUKA, new string[] { "MANUKA", "마누카", "マヌカ" } },
-			{ AvatarType.Mariel, new string[] { "Mariel", "마리엘", "まりえる" } },
-			{ AvatarType.Marron, new string[] { "Marron", "마론", "マロン" } },
-			{ AvatarType.Maya, new string[] { "Maya", "마야", "舞夜" } },
-			{ AvatarType.MAYO, new string[] { "MAYO", "마요", "まよ" } },
-			{ AvatarType.Merino, new string[] { "Merino", "메리노", "メリノ" } },
-			{ AvatarType.MICA, new string[] { "MICA", "미카", "ミカ" } },
-			{ AvatarType.Milfy, new string[] { "Milfy", "미르피", "ミルフィ" } },
-			{ AvatarType.Milk, new string[] { "Milk(New)", "밀크(신)", "ミルク（新）" } },
-			{ AvatarType.Milltina, new string[] { "Milltina", "밀티나", "ミルティナ" } },
-			{ AvatarType.Minahoshi, new string[] { "Minahoshi", "미나호시", "みなほし" } },
-			{ AvatarType.Minase, new string[] { "Minase", "미나세", "水瀬" } },
-			{ AvatarType.Mint, new string[] { "Mint", "민트", "ミント" } },
-			{ AvatarType.Mir, new string[] { "Mir", "미르", "ミール" } },
-			{ AvatarType.Misaki, new string[] { "Misaki", "미사키", "海咲" } },
-			{ AvatarType.Mishe, new string[] { "Mishe", "미셰", "ミーシェ" } },
-			{ AvatarType.Moe, new string[] { "Moe", "모에", "萌" } },
-			{ AvatarType.Nayu, new string[] { "Nayu", "나유", "ナユ" } },
-			{ AvatarType.Nehail, new string[] { "Nehail", "네하일", "ネハイル" } },
-			{ AvatarType.Nochica, new string[] { "Nochica", "노치카", "ノーチカ" } },
-			{ AvatarType.Platinum, new string[] { "Platinum", "플레티늄", "プラチナ" } },
-			{ AvatarType.Plum, new string[] { "Plum", "플럼", "プラム" } },
-			{ AvatarType.Pochimaru, new string[] { "Pochimaru", "포치마루", "ぽちまる" } },
-			{ AvatarType.Quiche, new string[] { "Quiche", "킷슈", "キッシュ" } },
-			{ AvatarType.Rainy, new string[] { "Rainy", "레이니", "レイニィ" } },
-			{ AvatarType.Ramune, new string[] { "Ramune", "라무네", "ラムネ" } },
-			{ AvatarType.Ramune_Old, new string[] { "Ramune(Old)", "라무네(구)", "ラムネ（古）" } },
-			{ AvatarType.RINDO, new string[] { "RINDO", "린도", "竜胆" } },
-			{ AvatarType.Rokona, new string[] { "Rokona", "로코나", "ロコナ" } },
-			{ AvatarType.Rue, new string[] { "Rue", "루에", "ルウ" } },
-			{ AvatarType.Rurune, new string[] { "Rurune", "루루네", "ルルネ" } },
-			{ AvatarType.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },
-			{ AvatarType.SELESTIA, new string[] { "SELESTIA", "셀레스티아", "セレスティア" } },
-			{ AvatarType.Sephira, new string[] { "Sephira", "세피라", "セフィラ" } },
-			{ AvatarType.Shami, new string[] { "Shami", "샤미", "シャミ" } },
-			{ AvatarType.Shinano, new string[] { "Shinano", "시나노", "しなの" } },
-			{ AvatarType.Shinra, new string[] { "Shinra", "신라", "森羅" } },
-			{ AvatarType.SHIRAHA, new string[] { "SHIRAHA", "시라하", "シラハ" } },
-			{ AvatarType.Shiratsume, new string[] { "Shiratsume", "시라츠메", "しらつめ" } },
-			{ AvatarType.Sio, new string[] { "Sio", "시오", "しお" } },
-			{ AvatarType.Sue, new string[] { "Sue", "스우", "透羽" } },
-			{ AvatarType.Sugar, new string[] { "Sugar", "슈가", "シュガ" } },
-			{ AvatarType.Suzuhana, new string[] { "Suzuhana", "스즈하나", "すずはな" } },
-			{ AvatarType.Tien, new string[] { "Tien", "티엔", "ティエン" } },
-			{ AvatarType.TubeRose, new string[] { "TubeRose", "튜베로즈", "TubeRose" } },
-			{ AvatarType.Ukon, new string[] { "Ukon", "우콘", "右近" } },
-			{ AvatarType.Usasaki, new string[] { "Usasaki", "우사사키", "うささき" } },
-			{ AvatarType.Uzuki, new string[] { "Uzuki", "우즈키", "卯月" } },
-			{ AvatarType.VIVH, new string[] { "VIVH", "비브", "ビィブ" } },
-			{ AvatarType.Wolferia, new string[] { "Wolferia", "울페리아", "ウルフェリア" } },
-			{ AvatarType.Yoll, new string[] { "Yoll", "요루", "ヨル" } },
-			{ AvatarType.YUGI_MIYO, new string[] { "YUGI MIYO", "유기 미요", "ユギ ミヨ" } },
-			{ AvatarType.Yuuko, new string[] { "Yuuko", "유우코", "幽狐" } }
-			// 검색용 신규 아바타 추가 위치
 		};
 	}
 }

@@ -21,39 +21,6 @@ namespace VRSuya.Core {
 
 	public static class AvatarUtility {
 
-		public enum AvatarAuthor {
-			General,
-			ChocolateRice,
-			JINGO,
-			Komado,
-			Plusone
-		}
-
-		public enum AvatarType {
-			None, General,
-			Airi, Aldina, Angura, Anon, Anri, Ash,
-			Chiffon, Chise, Chocolat, Cygnet,
-			Eku, Emmelie, EYO,
-			Firina, Flare, Fuzzy,
-			Glaze, Grus,
-			Hakka,
-			IMERIS,
-			Karin, Kikyo, Kipfel, Kokoa, Koyuki, KUMALY, Kuronatu,
-			Lapwing, Lazuli, Leefa, Leeme, Lime, LUMINA, Lunalitt,
-			Mafuyu, Maki, Mamehinata, MANUKA, Mariel, Marron, Maya, MAYO, Merino, MICA, Milfy, Milk, Milltina, Minahoshi, Minase, Mint, Mir, Misaki, Mishe, Moe,
-			Nayu, Nehail, Nochica,
-			Platinum, Plum, Pochimaru,
-			Quiche,
-			Rainy, Ramune, Ramune_Old, RINDO, Rokona, Rue, Rurune, Rusk,
-			SELESTIA, Sephira, Shami, Shinano, Shinra, SHIRAHA, Shiratsume, Sio, Sue, Sugar, Suzuhana,
-			Tien, TubeRose,
-			Ukon, Usasaki, Uzuki,
-			VIVH,
-			Wolferia,
-			Yoll, YUGI_MIYO, Yuuko
-			// 검색용 신규 아바타 추가 위치
-		}
-
 		public static readonly string[] HeadGameObjectNames = new string[] { "Body", "Head", "Face" };
 
 		public static readonly string[] CheekLeftBoneNames = new string[] {
@@ -95,39 +62,6 @@ namespace VRSuya.Core {
 				}
 			}
 			return null;
-		}
-
-		public static GameObject GetArmatureGameObject(GameObject AvatarGameObject) {
-			AvatarGameObject.TryGetComponent(out Animator TargetAnimator);
-			if (TargetAnimator) {
-				Transform HipsTransform = TargetAnimator.GetBoneTransform(HumanBodyBones.Hips);
-				if (HipsTransform) {
-					Transform ArmatureTransform = HipsTransform.parent;
-					if (ArmatureTransform) {
-						return ArmatureTransform.gameObject;
-					}
-				}
-			}
-			return null;
-		}
-
-		public static Transform GetAvatarAnchorOverride(GameObject AvatarGameObject) {
-			GameObject HeadGameObject = GetHeadGameObject(AvatarGameObject);
-			if (HeadGameObject) {
-				SkinnedMeshRenderer HeadSkinnedMeshRenderer = HeadGameObject.GetComponent<SkinnedMeshRenderer>();
-				if (HeadSkinnedMeshRenderer) {
-					if (HeadSkinnedMeshRenderer.probeAnchor) {
-						return HeadSkinnedMeshRenderer.probeAnchor;
-					}
-				}
-			}
-			return AvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true)
-				.Select(Item => Item.probeAnchor)
-				.Where(Item => Item != null)
-				.GroupBy(Item => Item)
-				.OrderByDescending(Item => Item.Count())
-				.FirstOrDefault()?
-				.Key;
 		}
 
 		public static VRC_AvatarDescriptor GetAvatarDescriptor() {
@@ -181,55 +115,6 @@ namespace VRSuya.Core {
 				.ToArray();
 		}
 
-		public static Material[] GetAvatarMaterials(GameObject AvatarGameObject) {
-			List<Material> NewAvatarMaterials = new List<Material>();
-			SkinnedMeshRenderer[] AvatarSkinnedMeshRenderers = AvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
-			MeshRenderer[] AvatarMeshRenderers = AvatarGameObject.GetComponentsInChildren<MeshRenderer>(true);
-			Material[] AnimationMaterials = AssetUtility.GetAnimationMaterials(AvatarGameObject);
-			if (AvatarSkinnedMeshRenderers.Length > 0) {
-				NewAvatarMaterials.AddRange(AvatarSkinnedMeshRenderers.SelectMany(Item => Item.sharedMaterials));
-			}
-			if (AvatarMeshRenderers.Length > 0) {
-				NewAvatarMaterials.AddRange(AvatarMeshRenderers.SelectMany(Item => Item.sharedMaterials));
-			}
-			if (AnimationMaterials.Length > 0) {
-				NewAvatarMaterials.AddRange(AnimationMaterials);
-			}
-			NewAvatarMaterials = NewAvatarMaterials.Where(Item => Item != null).Distinct().OrderBy(Item => Item.name).ToList();
-			return NewAvatarMaterials.ToArray();
-		}
-
-		public static string GetAvatarName(string TargetString) {
-			foreach (string AvatarName in GetAvatarNames()) {
-				if (TargetString.Contains(AvatarName, StringComparison.OrdinalIgnoreCase)) return AvatarName;
-			}
-			return null;
-		}
-
-		public static string[] GetAvatarNames() {
-			return Enum.GetNames(typeof(AvatarType));
-		}
-
-		public static Transform GetAvatarRootBone(GameObject AvatarGameObject) {
-			AvatarGameObject.TryGetComponent(out Animator AvatarAnimator);
-			if (AvatarAnimator) {
-				return AvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
-			}
-			return null;
-		}
-
-		public static Texture2D[] GetAvatarTextures(GameObject AvatarGameObject) {
-			List<Texture2D> NewAvatarTextures = new List<Texture2D>();
-			Material[] AvatarMaterials = GetAvatarMaterials(AvatarGameObject);
-			if (AvatarMaterials.Length > 0) {
-				foreach (Material TargetMaterial in AvatarMaterials) {
-					NewAvatarTextures.AddRange(AssetUtility.GetMaterialTextures(TargetMaterial));
-				}
-				NewAvatarTextures = NewAvatarTextures.Distinct().OrderBy(Item => Item.name).ToList();
-			}
-			return NewAvatarTextures.ToArray();
-		}
-
 		public static GameObject GetHeadGameObject(GameObject AvatarGameObject) {
 			AvatarGameObject.TryGetComponent(out VRCAvatarDescriptor TargetAvatarDescriptor);
 			if (TargetAvatarDescriptor) {
@@ -278,18 +163,6 @@ namespace VRSuya.Core {
 				}
 			}
 			return null;
-		}
-
-		public static bool HasEndBone(GameObject AvatarGameObject) {
-			GameObject ArmatureGameObject = GetArmatureGameObject(AvatarGameObject);
-			Transform[] EndTransforms = ArmatureGameObject.GetComponentsInChildren<Transform>(true).Where(Item => Item.childCount == 0).ToArray();
-			int EndBoneCount = EndTransforms.Where(Item => Item.name.Contains("_end")).Count();
-			if (EndTransforms.Length > 0) {
-				if ((float)EndBoneCount / EndTransforms.Length >= 0.75) {
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }

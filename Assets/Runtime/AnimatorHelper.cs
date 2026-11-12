@@ -17,17 +17,6 @@ namespace VRSuya.Core {
 
 	public static class AnimatorHelper {
 
-		public static void AddParameter(AnimatorController TargetController, AnimatorControllerParameter TargetParameter) {
-			AnimatorControllerParameter NewParameter = new AnimatorControllerParameter {
-				defaultBool = TargetParameter.defaultBool,
-				defaultFloat = TargetParameter.defaultFloat,
-				defaultInt = TargetParameter.defaultInt,
-				name = TargetParameter.name,
-				type = TargetParameter.type
-			};
-			TargetController.AddParameter(NewParameter);
-		}
-
 		static void CollectAnimatorComponent<TargetComponent>(AnimatorStateMachine TargetStateMachine, List<TargetComponent> TargetComponents) where TargetComponent : StateMachineBehaviour {
 			foreach (StateMachineBehaviour TargetBehaviour in TargetStateMachine.behaviours) {
 				if (TargetBehaviour is TargetComponent TargetStateMachineBehaviour) {
@@ -48,153 +37,6 @@ namespace VRSuya.Core {
 				if (!ChildSubStateMachine) continue;
 				CollectAnimatorComponent(ChildSubStateMachine, TargetComponents);
 			}
-		}
-
-		public static void CopyTransitions(AnimatorStateMachine TargetStateMachine, AnimatorStateMachine OldStateMachine) {
-			AnimatorStateMachine[] OldAnimatorStateMachines = GetAllStateMachines(OldStateMachine);
-			AnimatorStateMachine[] NewAnimatorStateMachines = GetAllStateMachines(TargetStateMachine);
-			AnimatorState[] OldAnimatorStates = GetAllStates(OldStateMachine);
-			AnimatorState[] NewAnimatorStates = GetAllStates(TargetStateMachine);
-			foreach (AnimatorState TargetState in NewAnimatorStates) {
-				AnimatorState ExistState = Array.Find(OldAnimatorStates, AnimatorState => AnimatorState.name == TargetState.name);
-				AnimatorStateTransition[] OldStateTransitions = ExistState.transitions;
-				if (OldStateTransitions.Length > 0) {
-					AnimatorStateTransition[] NewTransitions = new AnimatorStateTransition[OldStateTransitions.Length];
-					for (int Index = 0; Index < OldStateTransitions.Length; Index++) {
-						if (OldStateTransitions[Index].destinationState != null) {
-							AnimatorState NewDestinationState = Array.Find(NewAnimatorStates, AnimatorState => AnimatorState.name == OldStateTransitions[Index].destinationState.name);
-							NewTransitions[Index] = DuplicateTransition(OldStateTransitions[Index], NewDestinationState, null);
-						} else if (OldStateTransitions[Index].destinationStateMachine != null) {
-							AnimatorStateMachine NewDestinationExistStateMachine = Array.Find(NewAnimatorStateMachines, ExistStateMachine => ExistStateMachine.name == OldStateTransitions[Index].destinationStateMachine.name);
-							NewTransitions[Index] = DuplicateTransition(OldStateTransitions[Index], null, NewDestinationExistStateMachine);
-						}
-					}
-					TargetState.transitions = NewTransitions;
-				}
-			}
-		}
-
-		public static AnimatorControllerLayer DuplicateAnimatorLayer(AnimatorControllerLayer TargetAnimatorLayer) {
-			AnimatorControllerLayer NewAnimatorLayer = new AnimatorControllerLayer {
-				avatarMask = TargetAnimatorLayer.avatarMask,
-				blendingMode = TargetAnimatorLayer.blendingMode,
-				defaultWeight = TargetAnimatorLayer.defaultWeight,
-				iKPass = TargetAnimatorLayer.iKPass,
-				name = TargetAnimatorLayer.name,
-				stateMachine = DuplicateStateMachine(TargetAnimatorLayer.stateMachine),
-				syncedLayerAffectsTiming = TargetAnimatorLayer.syncedLayerAffectsTiming,
-				syncedLayerIndex = TargetAnimatorLayer.syncedLayerIndex
-			};
-			return NewAnimatorLayer;
-		}
-
-		public static AnimatorControllerLayer[] DuplicateAnimatorLayers(AnimatorController TargetController, AnimatorControllerLayer[] TargetLayers) {
-			AnimatorControllerLayer[] NewAnimatorLayers = new AnimatorControllerLayer[TargetController.layers.Length + TargetLayers.Length];
-			Array.Copy(TargetController.layers, NewAnimatorLayers, TargetController.layers.Length);
-			for (int Index = 0; Index < TargetLayers.Length; Index++) {
-				AnimatorControllerLayer NewAnimatorLayer = DuplicateAnimatorLayer(TargetLayers[Index]);
-				NewAnimatorLayers[TargetController.layers.Length + Index] = NewAnimatorLayer;
-			}
-			return NewAnimatorLayers;
-		}
-
-		public static AnimatorState DuplicateAnimatorState(AnimatorState TargetAnimatorState) {
-			AnimatorState NewState = new AnimatorState {
-				behaviours = TargetAnimatorState.behaviours,
-				cycleOffset = TargetAnimatorState.cycleOffset,
-				cycleOffsetParameter = TargetAnimatorState.cycleOffsetParameter,
-				cycleOffsetParameterActive = TargetAnimatorState.cycleOffsetParameterActive,
-				iKOnFeet = TargetAnimatorState.iKOnFeet,
-				mirror = TargetAnimatorState.mirror,
-				mirrorParameter = TargetAnimatorState.mirrorParameter,
-				mirrorParameterActive = TargetAnimatorState.mirrorParameterActive,
-				motion = TargetAnimatorState.motion,
-				speed = TargetAnimatorState.speed,
-				speedParameter = TargetAnimatorState.speedParameter,
-				speedParameterActive = TargetAnimatorState.speedParameterActive,
-				tag = TargetAnimatorState.tag,
-				timeParameter = TargetAnimatorState.timeParameter,
-				timeParameterActive = TargetAnimatorState.timeParameterActive,
-				writeDefaultValues = TargetAnimatorState.writeDefaultValues,
-				hideFlags = TargetAnimatorState.hideFlags,
-				name = TargetAnimatorState.name
-			};
-			return NewState;
-		}
-
-		public static ChildAnimatorState[] DuplicateChildAnimatorState(ChildAnimatorState[] TargetChildAnimatorStates) {
-			ChildAnimatorState[] NewChildAnimatorStates = new ChildAnimatorState[TargetChildAnimatorStates.Length];
-			for (int Index = 0; Index < TargetChildAnimatorStates.Length; Index++) {
-				ChildAnimatorState NewChildAnimatorState = new ChildAnimatorState {
-					position = TargetChildAnimatorStates[Index].position,
-					state = DuplicateAnimatorState(TargetChildAnimatorStates[Index].state)
-				};
-				NewChildAnimatorStates[Index] = NewChildAnimatorState;
-			}
-			return NewChildAnimatorStates;
-		}
-
-		public static ChildAnimatorStateMachine[] DuplicateChildStateMachine(ChildAnimatorStateMachine[] TargetChildStateMachines) {
-			ChildAnimatorStateMachine[] NewChildStateMachines = new ChildAnimatorStateMachine[TargetChildStateMachines.Length];
-			for (int Index = 0; Index < TargetChildStateMachines.Length; Index++) {
-				ChildAnimatorStateMachine NewChildStateMachine = new ChildAnimatorStateMachine {
-					position = TargetChildStateMachines[Index].position,
-					stateMachine = DuplicateStateMachine(TargetChildStateMachines[Index].stateMachine)
-				};
-				NewChildStateMachines[Index] = NewChildStateMachine;
-			}
-			return NewChildStateMachines;
-		}
-
-		public static AnimatorCondition[] DuplicateConditions(AnimatorCondition[] TargetConditions) {
-			AnimatorCondition[] NewConditions = new AnimatorCondition[TargetConditions.Length];
-			for (int Index = 0; Index < TargetConditions.Length; Index++) {
-				AnimatorCondition NewCondition = new AnimatorCondition {
-					mode = TargetConditions[Index].mode,
-					threshold = TargetConditions[Index].threshold,
-					parameter = TargetConditions[Index].parameter
-				};
-				NewConditions[Index] = NewCondition;
-			}
-			return NewConditions;
-		}
-
-		public static AnimatorStateMachine DuplicateStateMachine(AnimatorStateMachine TargetStateMachine) {
-			AnimatorStateMachine NewStateMachines = new AnimatorStateMachine {
-				anyStatePosition = TargetStateMachine.anyStatePosition,
-				behaviours = TargetStateMachine.behaviours,
-				entryPosition = TargetStateMachine.entryPosition,
-				exitPosition = TargetStateMachine.exitPosition,
-				parentStateMachinePosition = TargetStateMachine.parentStateMachinePosition,
-				stateMachines = DuplicateChildStateMachine(TargetStateMachine.stateMachines),
-				states = DuplicateChildAnimatorState(TargetStateMachine.states),
-				hideFlags = TargetStateMachine.hideFlags,
-				name = TargetStateMachine.name
-			};
-			CopyTransitions(NewStateMachines, TargetStateMachine);
-			return NewStateMachines;
-		}
-
-		public static AnimatorStateTransition DuplicateTransition(AnimatorStateTransition TargetStateTransition, AnimatorState TargetAnimatorState, AnimatorStateMachine TargetAnimatorStateMachine) {
-			AnimatorStateTransition NewTransition = new AnimatorStateTransition {
-				canTransitionToSelf = TargetStateTransition.canTransitionToSelf,
-				duration = TargetStateTransition.duration,
-				exitTime = TargetStateTransition.exitTime,
-				hasExitTime = TargetStateTransition.hasExitTime,
-				hasFixedDuration = TargetStateTransition.hasFixedDuration,
-				interruptionSource = TargetStateTransition.interruptionSource,
-				offset = TargetStateTransition.offset,
-				orderedInterruption = TargetStateTransition.orderedInterruption,
-				conditions = DuplicateConditions(TargetStateTransition.conditions),
-				destinationState = TargetAnimatorState,
-				destinationStateMachine = TargetAnimatorStateMachine,
-				isExit = TargetStateTransition.isExit,
-				mute = TargetStateTransition.mute,
-				solo = TargetStateTransition.solo,
-				hideFlags = TargetStateTransition.hideFlags,
-				name = TargetStateTransition.name
-			};
-			return NewTransition;
 		}
 
 		public static AnimationClip[] GetAllAnimationClips(AnimatorController TargetAnimator) {
@@ -253,16 +95,6 @@ namespace VRSuya.Core {
 			return AvatarAnimationClips.Distinct().ToArray();
 		}
 
-		public static BlendTree[] GetAllBlendTrees(AnimatorState[] TargetAnimatorStates) {
-			BlendTree[] BlendTrees = new BlendTree[0];
-			foreach (AnimatorState TargetAnimatorState in TargetAnimatorStates) {
-				if (TargetAnimatorState.motion is BlendTree TargetBlendTree) {
-					BlendTrees = BlendTrees.Concat(GetSubBlendTrees(TargetBlendTree)).ToArray();
-				}
-			}
-			return BlendTrees;
-		}
-
 		public static AnimatorStateMachine[] GetAllStateMachines(AnimatorStateMachine TargetStateMachine) {
 			AnimatorStateMachine[] StateMachines = new AnimatorStateMachine[] { TargetStateMachine };
 			if (TargetStateMachine.stateMachines.Length > 0) {
@@ -281,14 +113,6 @@ namespace VRSuya.Core {
 				}
 			}
 			return States;
-		}
-
-		public static AnimatorStateTransition[] GetAllTransitions(AnimatorController TargetAnimatorController) {
-			AnimatorState[] AllAnimatorState = GetAllAnimatorStates(TargetAnimatorController);
-			List<AnimatorStateTransition> AllTransitions = new List<AnimatorStateTransition>();
-			AllTransitions.AddRange(AllAnimatorState.SelectMany(Item => Item.transitions));
-			AllTransitions.AddRange(TargetAnimatorController.layers.SelectMany(Item => GetAllStateMachines(Item.stateMachine)).SelectMany(Item => Item.anyStateTransitions));
-			return AllTransitions.ToArray();
 		}
 
 		public static TargetComponent[] GetAnimatorComponent<TargetComponent>(AnimatorStateMachine TargetStateMachine) where TargetComponent : StateMachineBehaviour {
@@ -334,18 +158,6 @@ namespace VRSuya.Core {
 				}
 			}
 			return true;
-		}
-
-		public static bool ModifyWriteDefaults(AnimatorController TargetAnimator, bool TargetWriteDefaults) {
-			AnimatorState[] AllAnimatorStates = GetAllAnimatorStates(TargetAnimator);
-			bool IsModified = false;
-			foreach (AnimatorState TargetState in AllAnimatorStates) {
-				if (TargetState.writeDefaultValues != TargetWriteDefaults) {
-					TargetState.writeDefaultValues = TargetWriteDefaults;
-					IsModified = true;
-				}
-			}
-			return IsModified;
 		}
 	}
 }
